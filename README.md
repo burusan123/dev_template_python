@@ -52,15 +52,18 @@
     - `pyproject.toml`を開き、`name`, `version`, `description`, `authors`などを新しいプロジェクトに合わせて修正します。
 
 4.  **ローカル環境のセットアップ**:
-    -   仮想環境の作成、ライブラリのインストール、pre-commitフックの有効化を行います。
+    -   Pythonの高速なパッケージ管理ツール`uv`をインストールし、仮想環境の作成、ライブラリのインストール、pre-commitフックの有効化を行います。
     ```bash
+    # uvのインストール (未インストールの場合)
+    pip install uv
+
     # 仮想環境を作成
-    python -m venv .venv
+    uv venv
 
     # 仮想環境を有効化 (Windows: .venv\Scripts\activate | macOS/Linux: source .venv/bin/activate)
 
-    # 依存関係と開発ツールをインストール
-    pip install -e ".[dev]"
+    # ロックファイルから依存関係と開発ツールをインストール
+    uv pip sync requirements.lock
     python -m pre_commit install
 
     # 環境設定ファイルの作成
@@ -188,7 +191,11 @@ VibeCodingは単なる「AIにお願いする」コーディングスタイル�
 ---
 
 - **依存関係の追加**:
-  新しいライブラリを追加する場合は、`pyproject.toml`の`[project.dependencies]`セクションに追記し、再度`pip install -e ".[dev]"`を実行します。
+  新しいライブラリを追加する場合は、まず`pyproject.toml`の`[project.dependencies]`セクションに追記します。
+  その後、以下のコマンドを実行して`requirements.lock`ファイルを更新します。
+  ```bash
+  uv pip compile pyproject.toml --all-extras -o requirements.lock
+  ```
 
 - **コードの静的解析とフォーマット**:
   - `git commit`を実行すると、`pre-commit`が自動でコードをチェック・修正します。

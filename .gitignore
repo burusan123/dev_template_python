@@ -20,3 +20,7 @@ dist/
 # Data
 *.parquet
 /data/
+
+# Test reports
+.coverage
+coverage.xml
