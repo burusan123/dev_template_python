@@ -63,14 +63,14 @@ class TestMaskSensitiveData:
             "email": "user@example.com",
             "password": "secret",
             "api_key": "sk-1234567890",
-            "name": "John"
+            "name": "John",
         }
         result = mask_sensitive_data(data)
         expected = {
             "email": "u***@example.com",
             "password": "***",
             "api_key": "***",
-            "name": "John"
+            "name": "John",
         }
         assert result == expected
 
