@@ -49,12 +49,22 @@ def mask_sensitive_data(data: dict[str, Any]) -> dict[str, Any]:
         {'email': 'u***@example.com', 'name': 'John'}
     """
     sensitive_keys = {
-        "email", "mail", "e_mail",
-        "password", "passwd", "pwd",
-        "token", "api_key", "secret",
-        "phone", "tel", "mobile",
-        "ssn", "social_security_number",
-        "credit_card", "card_number"
+        "email",
+        "mail",
+        "e_mail",
+        "password",
+        "passwd",
+        "pwd",
+        "token",
+        "api_key",
+        "secret",
+        "phone",
+        "tel",
+        "mobile",
+        "ssn",
+        "social_security_number",
+        "credit_card",
+        "card_number",
     }
 
     masked_data = {}
@@ -83,16 +93,16 @@ def sanitize_log_message(message: str) -> str:
         サニタイズされたログメッセージ
     """
     # メールアドレスのパターンをマスク
-    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
     message = re.sub(email_pattern, lambda m: mask_email(m.group()), message)
 
     # APIキーのようなパターンをマスク(例: sk-1234567890abcdef)
-    api_key_pattern = r'\b[a-zA-Z]{2,4}-[a-zA-Z0-9]{16,}\b'
-    message = re.sub(api_key_pattern, '***', message)
+    api_key_pattern = r"\b[a-zA-Z]{2,4}-[a-zA-Z0-9]{16,}\b"
+    message = re.sub(api_key_pattern, "***", message)
 
     # UUIDのようなパターンをマスク
-    uuid_pattern = r'\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b'
-    message = re.sub(uuid_pattern, '***', message, flags=re.IGNORECASE)
+    uuid_pattern = r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b"
+    message = re.sub(uuid_pattern, "***", message, flags=re.IGNORECASE)
 
     return message
 
@@ -134,15 +144,34 @@ def is_safe_filename(filename: str) -> bool:
         return False
 
     # 危険な文字をチェック
-    dangerous_chars = {'/', '\\', '..', '<', '>', ':', '"', '|', '?', '*'}
+    dangerous_chars = {"/", "\\", "..", "<", ">", ":", '"', "|", "?", "*"}
     if any(char in filename for char in dangerous_chars):
         return False
 
     # 予約されたファイル名をチェック(Windows)
     reserved_names = {
-        'CON', 'PRN', 'AUX', 'NUL',
-        'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9',
-        'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'
+        "CON",
+        "PRN",
+        "AUX",
+        "NUL",
+        "COM1",
+        "COM2",
+        "COM3",
+        "COM4",
+        "COM5",
+        "COM6",
+        "COM7",
+        "COM8",
+        "COM9",
+        "LPT1",
+        "LPT2",
+        "LPT3",
+        "LPT4",
+        "LPT5",
+        "LPT6",
+        "LPT7",
+        "LPT8",
+        "LPT9",
     }
     if filename.upper() in reserved_names:
         return False
