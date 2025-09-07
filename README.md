@@ -19,6 +19,7 @@
   - [**detect-secrets**](https://github.com/Yelp/detect-secrets): 秘密情報の検出と防止。
   - [**bandit**](https://github.com/PyCQA/bandit): Pythonコードのセキュリティ脆弱性検出。
   - [**safety**](https://github.com/pyupio/safety): 依存関係の脆弱性チェック。
+  - [**CodeQL**](https://codeql.github.com/): GitHubによる高度な静的解析エンジン。
   - **セキュリティユーティリティ**: ログマスキング、入力検証、安全なファイル名チェック。
 - **設定管理**:
   - [**pydantic-settings**](https://docs.pydantic.dev/latest/concepts/pydantic_settings/): 型安全な設定管理。
@@ -273,6 +274,7 @@ CIパイプラインでは、以下のチェックが実行され、コードの
 - **コード品質**: Ruff（lint + format）、Mypy（型チェック）
 - **テスト**: pytest による全テスト実行
 - **セキュリティ**: detect-secrets、bandit による脆弱性検出
+- **高度なセキュリティスキャン**: CodeQL による詳細なコード解析
 
 ## セキュリティ
 
