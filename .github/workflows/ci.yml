@@ -24,7 +24,7 @@ jobs:
         run: pip install uv
 
       - name: Install dependencies
-        run: uv pip sync requirements.lock
+        run: uv pip sync --system requirements.lock
       - name: Ruff - Format check
         run: ruff format --check .
       - name: Ruff - Lint
