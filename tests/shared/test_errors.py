@@ -134,7 +134,7 @@ class TestExceptionInheritance:
             ExternalServiceError(),
             BusinessLogicError("test"),
         ]
-        
+
         for error in errors:
             assert isinstance(error, BaseApplicationError)
             assert isinstance(error, Exception)

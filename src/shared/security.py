@@ -60,7 +60,7 @@ def mask_sensitive_data(data: dict[str, Any]) -> dict[str, Any]:
     masked_data = {}
     for key, value in data.items():
         key_lower = key.lower()
-        
+
         if key_lower in sensitive_keys:
             if "email" in key_lower or "mail" in key_lower:
                 masked_data[key] = mask_email(str(value)) if value else "***"
@@ -85,15 +85,15 @@ def sanitize_log_message(message: str) -> str:
     # メールアドレスのパターンをマスク
     email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     message = re.sub(email_pattern, lambda m: mask_email(m.group()), message)
-    
+
     # APIキーのようなパターンをマスク(例: sk-1234567890abcdef)
     api_key_pattern = r'\b[a-zA-Z]{2,4}-[a-zA-Z0-9]{16,}\b'
     message = re.sub(api_key_pattern, '***', message)
-    
+
     # UUIDのようなパターンをマスク
     uuid_pattern = r'\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b'
     message = re.sub(uuid_pattern, '***', message, flags=re.IGNORECASE)
-    
+
     return message
 
 
@@ -113,10 +113,10 @@ def validate_input_length(value: str, max_length: int = 1000) -> str:
     """
     if not value:
         raise ValueError("入力値が空です")
-    
+
     if len(value) > max_length:
         return value[:max_length]
-    
+
     return value
 
 
@@ -132,12 +132,12 @@ def is_safe_filename(filename: str) -> bool:
     """
     if not filename:
         return False
-    
+
     # 危険な文字をチェック
     dangerous_chars = {'/', '\\', '..', '<', '>', ':', '"', '|', '?', '*'}
     if any(char in filename for char in dangerous_chars):
         return False
-    
+
     # 予約されたファイル名をチェック(Windows)
     reserved_names = {
         'CON', 'PRN', 'AUX', 'NUL',
@@ -146,5 +146,5 @@ def is_safe_filename(filename: str) -> bool:
     }
     if filename.upper() in reserved_names:
         return False
-    
+
     return True

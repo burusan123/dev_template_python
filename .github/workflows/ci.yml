@@ -22,8 +22,15 @@ jobs:
         run: ruff check .
       - name: Mypy - Type check
         run: mypy .
-      - name: Pytest - Tests
-        run: pytest -q
+      - name: Test with pytest
+        run: pytest
+
+      - name: Check code coverage
+        run: pytest --cov=src --cov-fail-under=90
+
+      - name: Check architecture dependencies
+        run: lint-imports
+
       - name: Detect-secrets - Security scan
         run: detect-secrets scan --baseline .secrets.baseline
       - name: Bandit - Security linting

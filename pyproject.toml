@@ -18,13 +18,15 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8",
-  "ruff>=0.5",
-  "mypy>=1.10",
-  "pre-commit>=3.7",
+  "ruff>=0.5.5",
+  "mypy>=1.11.0",
+  "pytest>=8.3.2",
+  "pre-commit>=3.8.0",
   "detect-secrets>=1.5",
-  "bandit[toml]>=1.7",
+  "bandit>=1.7",
   "safety>=3.0",
+  "import-linter>=2.2",
+  "pytest-cov>=5.0.0",
 ]
 
 [project.scripts]
@@ -41,7 +43,7 @@ line-length = 100
 target-version = "py310"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "PERF", "RUF"]
+select = ["E", "F", "W", "I", "UP", "B", "PERF", "RUF"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["core", "domain", "shared", "utils"]
@@ -61,9 +63,75 @@ exclude = ["src/dev_template_python.egg-info/"]
 namespace_packages = true
 explicit_package_bases = true
 
+[tool.importlinter]
+root_package = "src"
+
+[[tool.importlinter.contracts]]
+name = "Domain layer should not depend on core or shared"
+type = "forbidden"
+source_modules = [
+    "src.domain",
+]
+forbidden_modules = [
+    "src.core",
+    "src.shared",
+]
+
+[[tool.importlinter.contracts]]
+name = "Core layer should use shared instead of utils directly"
+type = "forbidden"
+source_modules = [
+    "src.core",
+]
+forbidden_modules = [
+    "src.utils",
+]
+
+[[tool.importlinter.contracts]]
+name = "Shared layer should not depend on core or domain"
+type = "forbidden"
+source_modules = [
+    "src.shared",
+]
+forbidden_modules = [
+    "src.core",
+    "src.domain",
+]
+
+[[tool.importlinter.contracts]]
+name = "Utils layer should be independent"
+type = "forbidden"
+source_modules = [
+    "src.utils",
+]
+forbidden_modules = [
+    "src.core",
+    "src.domain",
+    "src.shared",
+    "src.config",
+    "src.pipelines",
+]
+
+[[tool.importlinter.contracts]]
+name = "Config layer should be independent"
+type = "forbidden"
+source_modules = [
+    "src.config",
+]
+forbidden_modules = [
+    "src.core",
+    "src.domain",
+    "src.shared",
+    "src.utils",
+    "src.pipelines",
+]
+
 [tool.pytest.ini_options]
-addopts = "-q"
-testpaths = ["tests"]
+minversion = "6.0"
+addopts = "-q --strict-markers --disable-warnings --cov=src --cov-report=xml --cov-report=term"
+testpaths = [
+    "tests",
+]
 pythonpath = ["src"]
 
 [tool.bandit]
