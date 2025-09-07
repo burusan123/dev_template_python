@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          pip install -e ".[dev]"
+      - name: Ruff - Format check
+        run: ruff format --check .
+      - name: Ruff - Lint
+        run: ruff check .
+      - name: Mypy - Type check
+        run: mypy .
+      - name: Pytest - Tests
+        run: pytest -q
+      - name: Detect-secrets - Security scan
+        run: detect-secrets scan --baseline .secrets.baseline
+      - name: Bandit - Security linting
+        run: bandit -r src/ -f json

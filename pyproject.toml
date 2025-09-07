@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dev-template-python"
+version = "0.1.0"
+description = "Minimal Python project template"
+authors = [{name = "Your Team", email = "team@example.com"}]
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+license = {text = "MIT"}
+dependencies = [
+  "rich>=13",
+  "pydantic-settings>=2",
+  "typer[all]>=0.12",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "ruff>=0.5",
+  "mypy>=1.10",
+  "pre-commit>=3.7",
+  "detect-secrets>=1.5",
+  "bandit[toml]>=1.7",
+  "safety>=3.0",
+]
+
+[project.scripts]
+dev-template = "core.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "PERF", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["core", "domain", "shared", "utils"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+mypy_path = ["src"]
+exclude = ["src/dev_template_python.egg-info/"]
+namespace_packages = true
+explicit_package_bases = true
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.bandit]
+exclude_dirs = ["tests", "venv", ".venv"]
+skips = ["B101"]  # Skip assert_used test
