@@ -299,3 +299,5 @@ log_level = settings.LOG_LEVEL
 ```
 
 環境変数は `.env` ファイルから自動的に読み込まれます。`.env.example` をコピーして使用してください。
+
+<!-- chore: trigger CI -->
