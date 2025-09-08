@@ -88,7 +88,7 @@ from pydantic import BaseModel, Field, validator
 class UserInput(BaseModel):
     email: str = Field(..., regex=r'^[^@]+@[^@]+\.[^@]+$')
     age: int = Field(..., ge=0, le=150)
-    
+
     @validator('email')
     def validate_email(cls, v):
         # 追加の検証ロジック

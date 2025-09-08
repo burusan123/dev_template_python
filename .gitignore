@@ -24,3 +24,6 @@ dist/
 # Test reports
 .coverage
 coverage.xml
+
+# Generated config
+.pre-commit-config.yaml
