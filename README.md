@@ -58,10 +58,13 @@
     # uvのインストール (未インストールの場合)
     pip install uv
 
-    # 仮想環境を作成
-    uv venv
+    # 仮想環境を作成 (PATHの問題を避け、pipを確実に含めるため `python -m` と `--seed` を使用)
+    python -m uv venv --seed
 
     # 仮想環境を有効化 (Windows: .venv\Scripts\activate | macOS/Linux: source .venv/bin/activate)
+
+    # 仮想環境内にuvをインストール
+    pip install uv
 
     # ロックファイルから依存関係と開発ツールをインストール
     uv pip sync requirements.lock
