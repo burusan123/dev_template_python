@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import typer
+from config import settings
 from rich.console import Console
 
-from config import settings
 from core.services import item_service
 from shared.logging import get_logger, setup_logging
 

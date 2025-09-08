@@ -1,8 +1,7 @@
 import logging
 
-from rich.logging import RichHandler
-
 from config import settings
+from rich.logging import RichHandler
 
 
 def setup_logging() -> None:
